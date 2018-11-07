@@ -16,7 +16,7 @@ const PostSchema = new Schema({
     }
 });
 
-PostSchema.pre('save', function(next) => {
+PostSchema.pre('save', function(next) {
     const now = new Date();
     this.updatedAt = now;
 
