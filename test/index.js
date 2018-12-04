@@ -1,13 +1,15 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
-const should = chai.should();
+chai.should();
+
+const app = require('../app');
 
 chai.use(chaiHttp);
 
 describe("site", () => {
     it("Should have home page", (done) => {
         chai
-        .request("localhost:3000")
+        .request(app)
         .get("/")
         .end((err, res) => {
             if (err) {
