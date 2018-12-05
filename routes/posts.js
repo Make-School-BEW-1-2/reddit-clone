@@ -21,7 +21,7 @@ router.get('/new', (req, res) => {
 
 router.post('/new', (req, res) => {
     const newPost = Post(req.body);
-
+    console.log(req.body)
     newPost.save((err, post) => {
         return res.redirect('/');
     })
@@ -29,7 +29,9 @@ router.post('/new', (req, res) => {
 
 router.get('/:id', (req, res) => {
     Post.findById(req.params.id)
+    .populate('comments')
         .then((post) => {
+          console.log(post.comments);
             res.render('post-show', { post });
         })
         .catch((err) => {
