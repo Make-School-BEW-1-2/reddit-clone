@@ -1,3 +1,4 @@
+require('dotenv').config();
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -29,6 +30,7 @@ app.use('/', indexRouter);
 app.use('/posts', postsRouter);
 app.use('/r', subredditsRouter);
 app.use('/comments', commentsRouter);
+app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
