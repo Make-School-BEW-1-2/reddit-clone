@@ -3,6 +3,9 @@ var router = express.Router();
 const jwt = require('jsonwebtoken');
 
 
+const User = require('../models/user');
+
+
 /* GET users listing. */
 router.get('/sign-up', (req, res) => {
   res.render('sign-up');
@@ -21,7 +24,7 @@ router.post('/sign-up', (req, res) => {
           expiresIn: '60 days'
         }
       );
-      res.cookie('reddit-clone', token, { maxAge: 900000, httpOnly: true });
+      res.cookie('redditClone', token, { maxAge: 900000, httpOnly: true });
       res.redirect("/");
     })
     .catch(err => {
@@ -30,7 +33,7 @@ router.post('/sign-up', (req, res) => {
 });
 
 router.get('/logout', (req, res) => {
-  res.clearCookie('reddit-clone');
+  res.clearCookie('redditClone');
   res.redirect('/')
 });
 
@@ -59,7 +62,7 @@ router.post('/login', (req, res) => {
           expiresIn: "60 days"
         });
         // Set a cookie and redirect to root
-        res.cookie("reddit-clone", token, { maxAge: 900000, httpOnly: true });
+        res.cookie("redditClone", token, { maxAge: 900000, httpOnly: true });
         res.redirect("/");
       });
     })

@@ -5,6 +5,8 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const mongoose = require('mongoose');
+const jwt = require('jsonwebtoken');
+
 require('./data/reddit-clone-db');
 
 
@@ -20,11 +22,25 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
+const checkAuth = (req, res, next) => {
+  console.log("Checking authentication");
+  if (typeof req.cookies.redditClone === "undefined" || req.cookies.redditClone === null) {
+    req.user = null;
+  } else {
+    var token = req.cookies.redditClone;
+    var decodedToken = jwt.decode(token, { complete: true }) || {};
+    req.user = decodedToken.payload;
+  }
+
+  next();
+};
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(checkAuth);
 
 app.use('/', indexRouter);
 app.use('/posts', postsRouter);
