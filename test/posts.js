@@ -1,19 +1,40 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
+const server = require('../app');
+
 chai.should();
-
-const app = require('../app');
-
 chai.use(chaiHttp);
+
+const agent = chai.request.agent(server);
 
 const Post = require('../models/post.js');
 
-describe("Posts", () => {
-  it("should create with valid attributes at POST /posts", done => {
+describe('Posts', () => {
+
+  before((done) => {
+    const user = {
+      username: 'NotAUsername',
+      password: 'thisisntit',
+    };
+
+    agent
+      .post('/users/login')
+      .send(user)
+      .then((res) => {
+        done();
+      })
+      .catch((err) => {
+        done(err);
+      });
+  });
+
+  it('should create with valid attributes at POST /posts', (done) => {
     const post = {
-      title: "post title",
-      url: "https://www.google.com",
-      summary: "post summary"
+      title: 'post title',
+      url: 'https://www.google.com',
+      summary: 'post summary',
+      author: '5c08495768e4c13b7deb7aca',
+      subreddit: 'subreddit',
     };
     Post.findOneAndRemove(post)
       .then(() => {
@@ -21,48 +42,35 @@ describe("Posts", () => {
           .then((posts) => {
             const postCount = posts.length || 0;
 
-            chai
-              .request(app)
-              .post("/posts/new")
+            agent
+              .post('/posts/new')
               .send(post)
-              .then(res => {
+              .then((res) => {
                 Post.find({})
                   .then((posts) => {
                     postCount.should.be.equal(posts.length - 1);
                     res.should.have.status(200);
                     return done();
                   })
-                  .catch((err) => {
-                    console.error(err.message);
-                  });
+                  .catch(err => done(err));
               })
-              .catch(err => {
-                return done(err);
-              });
+              .catch(err => done(err));
           })
-          .catch((err) => {
-            return done(err);
-          });
+          .catch(err => done(err));
       })
-      .catch((err) => {
-        console.error(err.message);
-      });
+      .catch(err => done(err));
   });
-  it("should not allow the creation of a post without all fields", (done) => {
-    const post = {
 
-    }
+  it('should not allow the creation of a post without all fields', (done) => {
+    const post = {};
 
-    chai
-      .request(app)
-      .post("/posts/new")
+    agent
+      .post('/posts/new')
       .send(post)
-      .then(res => {
-        console.log(res.status);
+      .then((res) => {
+        res.should.have.status(400);
         return done();
       })
-      .catch((err) => {
-        console.error(err.message);
-      });
-  })
-})
+      .catch(err => done(err));
+  });
+});

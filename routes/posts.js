@@ -21,10 +21,11 @@ router.post('/new', (req, res) => {
         return res.redirect(`/posts/${newPost._id}`);
       })
       .catch((err) => {
-        console.error(err);
+        console.error(err.message);
+        return res.status(400).send();
       })
   } else {
-    return res.status(401);
+    return res.status(401).send();
   }
 })
 

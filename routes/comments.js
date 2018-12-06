@@ -26,7 +26,7 @@ router.post('/:postId', (req, res) => {
         console.error(err);
       })
   } else {
-    return res.status(401);
+    return res.status(401).send();
   }
 });
 

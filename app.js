@@ -23,7 +23,6 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
 const checkAuth = (req, res, next) => {
-  console.log("Checking authentication");
   if (typeof req.cookies.redditClone === "undefined" || req.cookies.redditClone === null) {
     req.user = null;
   } else {
