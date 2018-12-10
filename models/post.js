@@ -1,5 +1,10 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
+
 const Schema = mongoose.Schema;
+
+const Comment = require('../models/comment.js')
+
+
 
 const PostSchema = new Schema({
   title: {
@@ -12,20 +17,17 @@ const PostSchema = new Schema({
   },
   summary: {
     type: String,
-    required: true
+    required: true,
   },
   subreddit: {
     type: String,
     required: true,
   },
-  comments: [{
-    type: Schema.Types.ObjectId,
-    ref: 'Comment',
-  }],
+  comments: [Comment.schema],
   author: {
     type: Schema.Types.ObjectId,
     ref: 'User',
-    required: true
+    required: true,
   },
 });
 

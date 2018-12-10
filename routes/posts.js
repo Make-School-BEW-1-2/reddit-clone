@@ -33,14 +33,6 @@ router.get('/:id', (req, res) => {
   const currentUser = req.user;
   Post.findById(req.params.id)
     .populate('author')
-    .populate({
-      path: 'comments',
-      model: 'Comment',
-      populate: {
-        path: 'author',
-        model: 'User'
-      }
-    })
     .then((post) => {
       console.log(post.comments);
       res.render('post-show', {

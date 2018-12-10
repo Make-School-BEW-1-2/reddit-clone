@@ -5,17 +5,16 @@
     <p>{{post.author.username}}</p>
 
     {{#if currentUser}}
-    <form action="/comments/{{post._id}}" method="post">
-      <textarea class='form-control' name="content" placeholder="Comment"></textarea>
-      <div class="text-right">
-        <button type="submit">Save</button>
-      </div>
-    </form>
+      <form action="/comments/{{post._id}}" method="post">
+        <textarea class='form-control' name="content" placeholder="Comment"></textarea>
+        <div class="text-right">
+          <button type="submit">Save</button>
+        </div>
+      </form>
     {{/if}}
 
     {{#each post.comments}}
-      <p>{{this.content}}</p>
-      <p>{{this.author.username}}</p>
+      {{> comment post=../post comment=this}}
     {{/each}}
 
   </div>
