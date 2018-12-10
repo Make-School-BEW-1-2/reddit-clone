@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
+const exphbs = require('express-handlebars');
 
 require('./data/reddit-clone-db');
 
@@ -19,8 +20,9 @@ var commentsRouter = require('./routes/comments');
 var app = express();
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
+app.engine('hbs', exphbs({ defaultLayout: 'main', extname: '.hbs' }));
 app.set('view engine', 'hbs');
+
 
 const checkAuth = (req, res, next) => {
   if (typeof req.cookies.redditClone === "undefined" || req.cookies.redditClone === null) {
