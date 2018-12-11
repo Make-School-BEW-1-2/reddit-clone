@@ -21,7 +21,7 @@ router.post('/new', (req, res) => {
         return res.redirect(`/posts/${newPost._id}`);
       })
       .catch((err) => {
-        console.error(err.message);
+        console.error(err);
         return res.status(400).send();
       })
   } else {
@@ -41,7 +41,7 @@ router.get('/:id', (req, res) => {
       });
     })
     .catch((err) => {
-      console.error(err.message);
+      console.error(err);
     })
 })
 

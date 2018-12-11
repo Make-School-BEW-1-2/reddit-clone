@@ -1,6 +1,5 @@
 <div class="col-xs-12" style="margin-left: 4px; border-left: 1px solid rgb(108, 171, 230); padding-left: 4px;">
   <p>{{comment.content}}</p>
-  <h3>COMMENT:{{comment}}</h3>
   <form action="/comments/{{post._id}}/{{comment._id}}/replies" method="post">
     <div class="form-group">
       <textarea name="content" class="form-control" id="reply-content" placeholder="Reply"></textarea>
