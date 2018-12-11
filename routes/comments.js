@@ -29,7 +29,7 @@ router.post('/:postId', (req, res) => {
 function findParentComment(newComment, comments, parentId) {
   // iterate through all of the comments
   for (let i = 0; i < comments.length; i += 1) {
-    console.log('LOOKING AT', comments[i].content, 'SUBS', comments[i].comments);
+    console.log('LOOKING AT', comments[i].content, 'SUBCOM', comments[i].comments);
     // if this comment's id matches the parent
     if (comments[i]._id == parentId) {
       console.log('FOUND');
@@ -59,6 +59,7 @@ router.post('/:postId/:commentId/replies', (req, res) => {
   Post.findById(req.params.postId)
     .then((post) => {
       if (findParentComment(newComment, post.comments, req.params.commentId)) {
+        post.markModified('comments');
         return post.save();
       }
       throw new Error('Parent comment not found');
