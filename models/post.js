@@ -29,6 +29,18 @@ const PostSchema = new Schema({
     ref: 'User',
     required: true,
   },
+  upVotes: [{
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+  }],
+  downVotes: [{
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+  }],
+  voteScore: [{
+    type: Number,
+    default: 0,
+  }],
 });
 
 PostSchema.pre('save', function(next) {

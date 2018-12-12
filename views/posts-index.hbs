@@ -1,7 +1,14 @@
 <div class="d-flex justify-content-center">
-  <ul>
+  <ul class="post-list">
     {{#each posts}}
       <li class="list-group-item">
+        <form class="vote-up" data-id="{{this._id}}">
+          <button type="submit">Vote Up</button>
+        </form>
+        |
+        <form class="vote-down" data-id="{{this._id}}">
+          <button type="submit">Vote Down</button>
+        </form>
         <div class="lead">
           <a href="/posts/{{this._id}}">{{this.title}}</a>
         </div>
